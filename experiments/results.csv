@@ -1,0 +1,4 @@
+experiment,model,hyperparams,precision,recall,f1,mAP50,mAP50_95,latency_ms_per_image,weights_path
+exp1_baseline,yolov8n.pt,"{'epochs': 50, 'imgsz': 640, 'batch': 16, 'lr0': 0.01, 'optimizer': 'auto'}",0.998,0.9979,0.9979,0.995,0.965,10.66,C:\Users\BISWAJEET\projects\door-detection-yolo\experiments\exp1_baseline\weights\best.pt
+exp2_augmentation,yolov8n.pt,"{'epochs': 50, 'imgsz': 640, 'batch': 16, 'lr0': 0.01, 'optimizer': 'auto', 'mosaic': 1.0, 'mixup': 0.15, 'hsv_h': 0.02, 'hsv_s': 0.8, 'hsv_v': 0.5, 'fliplr': 0.5, 'degrees': 10.0}",0.9943,0.898,0.9437,0.9755,0.9443,11.31,C:\Users\BISWAJEET\projects\door-detection-yolo\experiments\exp2_augmentation\weights\best.pt
+exp3_capacity_lr,yolov8s.pt,"{'epochs': 50, 'imgsz': 640, 'batch': 16, 'lr0': 0.005, 'optimizer': 'AdamW'}",0.9906,0.9769,0.9837,0.9887,0.9641,14.42,C:\Users\BISWAJEET\projects\door-detection-yolo\experiments\exp3_capacity_lr\weights\best.pt

@@ -1,0 +1,6 @@
+path: C:/Users/BISWAJEET/projects/door-detection-yolo/dataset
+train: images/train
+val: images/val
+test: images/test
+nc: 2
+names: ['door_open', 'door_closed']

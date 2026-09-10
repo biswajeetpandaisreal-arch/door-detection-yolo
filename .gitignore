@@ -1,0 +1,14 @@
+.venv/
+raw_data/*.zip
+raw_data/_extracted/
+raw_data/roboflow_relabel/
+dataset/images/
+dataset/labels/
+*.pt
+*.onnx
+__pycache__/
+*.pyc
+predictions/semi_holdout/
+predictions/github_box_check/
+*.log.txt
+runs/
