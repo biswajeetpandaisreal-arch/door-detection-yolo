@@ -37,7 +37,14 @@ python scripts/export_and_predict.py --experiment exp1_baseline
 sanity-checks it with onnxruntime, and saves 5 example predictions to
 `predictions/examples/`.
 
+| `door_closed` | `door_open` |
+|---|---|
+| ![closed door example](predictions/examples/pred_gh_door0000035.png) | ![open door example](predictions/examples/pred_gh_door0000096.png) |
+
 ## Results
+
+![Training curves for exp1_baseline](experiments/exp1_baseline/results.png)
+![Confusion matrix for exp1_baseline](experiments/exp1_baseline/confusion_matrix.png)
 
 | Experiment | Precision | Recall | F1 | mAP@0.5 | mAP@0.5:0.95 | Latency (ms/img) |
 |---|---|---|---|---|---|---|
@@ -54,6 +61,10 @@ sanity-checks it with onnxruntime, and saves 5 example predictions to
 **Where the model still fails:** ran `exp1_baseline` (best model) over a sample of `predictions/semi_holdout/` (150 ambiguous "half-open" images set aside from training) — annotated output in `predictions/semi_holdout_annotated/`. Two concrete failure patterns showed up:
 1. **Near-tied conflicting detections** on the same door: e.g. `gh_door0000328.png` fires both `door_closed 0.70` and `door_open 0.53` on the same box, `gh_door0000022.png` fires `door_closed 0.63` / `door_open 0.63` — essentially a coin-flip, because the model was never trained on this middle state and has no calibrated way to express "unsure."
 2. **Duplicate boxes for one door** on ambiguous frames, e.g. `gh_door0000305.png` returns two overlapping `door_open` boxes (0.96, 0.89) for a single door — NMS not fully collapsing two candidate anchors when the door's visual signal doesn't cleanly match either training class.
+
+| Near-tied conflict | Near-tied conflict | Duplicate boxes |
+|---|---|---|
+| ![conflicting detection 1](predictions/semi_holdout_annotated/gh_door0000328.png) | ![conflicting detection 2](predictions/semi_holdout_annotated/gh_door0000022.png) | ![duplicate boxes](predictions/semi_holdout_annotated/gh_door0000305.png) |
 
 Clearly-open or clearly-closed holdout images (even ones the model hadn't seen) are still classified confidently and correctly, so the failures are specific to the "genuinely ambiguous" half-open middle ground — the expected limitation of a 2-class detector applied to what is really a 3-state real-world phenomenon, not a training bug. A production fix would be a `door_ajar`/third class, or a confidence-gap threshold that flags near-tied predictions as "uncertain" instead of forcing a class.
 
